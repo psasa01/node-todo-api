@@ -9,7 +9,7 @@ var User = mongoose.model('User', {
     }
 });
 
-/* var newUser = new User({
+/*var newUser = new User({
     email: '  psasa01@gmail.com  '
 });
 

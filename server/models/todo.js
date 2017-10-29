@@ -22,7 +22,7 @@ module.exports = {
 }
 
 /* var newTodo = new Todo({
-    text: 'This is SIXITH ToDo',
+    text: 'This is SIXTH ToDo',
     completed: false,
     completedAt: Date.now()
 });
