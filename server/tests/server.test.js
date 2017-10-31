@@ -109,4 +109,64 @@ describe('POST /todos', () => {
                 .end(done)
         });
     });
+    describe('DELETE /todo/:id', () => {
+        it('should remove todo', (done) => {
+            var hexId = todos[1]._id.toHexString();
+            request(app)
+                .delete(`/todos/${hexId}`)
+                .expect(200)
+                .expect((res) => {
+                    expect(res.body.todo._id).toBe(hexId)
+                })
+                .end((err, res) => {
+                    if (err) {
+                        return done(err);
+                    }
+
+                    Todo.find({
+                        id: hexId
+                    }).then((todo) => {
+                        expect(todo.length).toBe(0);
+                        done();
+                    }).catch((e) => done(e));
+                });
+        });
+
+        it('should return 404 if todo not found', (done) => {
+            var hexId = todos[1]._id.toHexString();
+            request(app)
+                .delete(`/todos/${hexId}`)
+                .end((err, res) => {
+                    if (err) {
+                        return done(err);
+                    }
+
+                    Todo.find({
+                        id: hexId
+                    }).then((todo) => {
+                        expect(404)
+                        done();
+                    });
+                });
+
+        });
+
+        it('should return 404 if ID is invalid', (done) => {
+            var hexId = todos[1]._id.toHexString();
+            request(app)
+                .delete(`/todos/${hexId}`)
+                .end((err, res) => {
+                    if (err) {
+                        return done(err);
+                    }
+
+                    Todo.find({
+                        id: '59f83b3195356b0f30a832a1'
+                    }).then((todo) => {
+                        expect(404)
+                        done();
+                    });
+                });
+        });
+    });
 });
