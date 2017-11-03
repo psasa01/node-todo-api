@@ -34,6 +34,27 @@ app.post('/todos', (req, res) => {
     });
 });
 
+app.post('/users', (req, res) => {
+    var body = _.pick(req.body, ['email', 'password']);
+
+    var user = new User(body);
+    user.save().then((user) => {
+        res.send(user);
+    }).catch((e) => {
+        res.status(400).send(e);
+    });
+});
+
+app.get('/users', (req, res) => {
+    User.find().then((user) => {
+        res.send({
+            user
+        });
+    }, (e) => {
+        res.status(400).send(e);
+    })
+});
+
 app.get('/todos', (req, res) => {
     Todo.find().then((todos) => {
         res.send({
@@ -128,6 +149,7 @@ app.patch('/todos/:id', (req, res) => {
             res.status(400).send();
         })
 });
+
 
 
 app.listen(port, () => {
